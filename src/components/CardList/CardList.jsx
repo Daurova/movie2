@@ -21,7 +21,7 @@ const [loading, setLoading] = useState(false); // Добавляем состо�
 const [error, setError] = useState(false);
 const [total, setTotal] = useState(0)
 const [inputValue, setInputValue]=useState('')
-const [guestSessionId, setGuestSessionId] = useState('');
+const [guestSessionId, setGuestSessionId] = useState('')
 
 
 
