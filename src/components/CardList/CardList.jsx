@@ -3,9 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { Input, Space, List, Avatar, Button, Spin, Alert, Pagination } from 'antd'
 import {debounce} from 'lodash'
 
-
 import '../CardList/CardList.css'
-import Search from 'antd/es/transfer/search';
 
 const truncateText = (text, maxLength) => {
     if (text.length <= maxLength) {
@@ -21,45 +19,113 @@ const MovieSearch = () => {
 const [movies, setMovies] = useState([]);
 const [loading, setLoading] = useState(false); // Добавляем состояние для индикатора загрузки
 const [error, setError] = useState(false);
+const [total, setTotal] = useState(0)
+const [inputValue, setInputValue]=useState('')
+const [guestSessionId, setGuestSessionId] = useState('');
+
+
+
+
 const apiKey = '7e14147cbafc9f8e4f095ea26ebf8692';
+useEffect(() => {
+    const createGuestSession = async () => {
+      try {
+        const response = await fetch(`https://api.themoviedb.org/3/authentication/guest_session/new?api_key=${apiKey}`);
+        if (response.ok) {
+          const data = await response.json();
+          setGuestSessionId(data.guest_session_id);
+          console.log(data.guest_session_id)
+        } else {
+          console.error('Failed to create guest session');
+        }
+      } catch (error) {
+        console.error('Error creating guest session:', error);
+      }
+    };
+
+    createGuestSession();
+}, []);
 
     useEffect(() => {
     const searchMovies = async () => {
       try {
-        const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=return`);
+        setLoading(true)
+        const response = await fetch (`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&page=1&per_page=6`)
+        setLoading(false)
+
         if (response.ok) {
           const data = await response.json();
              setMovies(data.results);
              console.log(data.results)
+             setTotal(data.total_results)
+             console.log(data.total_results)
         } else {
           console.error('Failed to fetch movies');
         }
       } catch (error) {
         console.error('Error fetching movies:', error);
       }
-    };
+   };
 
     searchMovies();
     }, []);
 
+//pagination consts
+
+// const currentPosters = movies.slice(indexOfFirstPage, indexOfLastPage)
+// console.log(currentPosters)
+
 
 const genres = ["Action", "Adventure", "Comedy", "Drama", "Fantasy"];
 
-const handleSearch = debounce((value) => {
-    // Ваш код для выполнения поиска по значению value
-  }, 500);
+const handleSearch = debounce(async (value) => {
+    try {
+        setLoading(true)
 
+        const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${value}&page=1&per_page=6`)
+        setLoading(false)
+
+        if (response.ok) {
+            const data = await response.json();
+            setMovies(data.results)
+            setTotal(data.total_results)
+            setInputValue(value)
+
+        } else {
+            setError('Failed to fetch movies');
+        }
+    } catch (error) {
+        setError('Error fetching movies');
+    }
+  }, 2000);
+
+const onChangePage = async (page, pageSize) =>{
+    try {
+        setLoading(true)
+
+        const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${inputValue}&page=${page}&per_page=6`);
+        setLoading(false)
+
+        if (response.ok) {
+            const data = await response.json();
+            setMovies(data.results)
+            setTotal(data.total_results)
+
+        } else {
+            setError('Failed to fetch movies');
+        }
+    } catch (error) {
+        setError('Error fetching movies');
+    }
+}
 
   return (
     <div className='wrapper'>
       <h1>Movie Search Results</h1>
-      <Search
-        placeholder="Search movies..."
-        onSearch={value => console.log(value)}
-        style={{ width: 200 }}
-      /> 
+   
        <Space direction="vertical">
-       <Input placeholder="Введите поисковый запрос" onChange={handleSearch} />
+       <Input placeholder="Введите поисковый запрос"
+              onChange={(e)=>handleSearch(e.target.value)} />
        </Space>
       {/* Индикатор загрузки */}
       {loading && <Spin />}
@@ -69,6 +135,8 @@ const handleSearch = debounce((value) => {
         grid={{ gutter: 36, column: 2 }}
         itemLayout="horizontal"
         dataSource={movies}
+        locale = {{emptyText:'no results'}}
+        loading = {loading}
         renderItem={movie => (
           <List.Item style={{ width: 421, height: 279 }}>
                       <List.Item.Meta
@@ -87,6 +155,13 @@ const handleSearch = debounce((value) => {
             />
           </List.Item>
         )}
+      />
+      <Pagination
+        total={total}
+        pageSize={20}
+        onChange={onChangePage}
+        showSizeChanger={false}
+
       />
     </div>
   );

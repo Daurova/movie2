@@ -1,5 +1,6 @@
 import './App.css'
 import MovieSearch from './components/CardList/CardList'
+import { Pagination } from 'antd'
 
 function App() {
   return (
