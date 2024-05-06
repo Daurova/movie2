@@ -1,11 +1,12 @@
 import './App.css'
 import MovieSearch from './components/CardList/CardList'
-import { Pagination } from 'antd'
+import Tabs  from './components/Tabs/Tabs ';
+
 
 function App() {
   return (
     <div className="App">
-      <MovieSearch/>
+      <Tabs/>
     </div>
   );
 }
