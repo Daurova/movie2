@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react'
-import { Input, Space, List, Avatar, Button, Spin, Alert, Pagination } from 'antd'
+import { Input, Space, List, Avatar, Button, Spin, Alert, Pagination, Rate } from 'antd'
 import {debounce} from 'lodash'
 
 import '../CardList/CardList.css'
@@ -29,25 +29,6 @@ const [guestSessionId, setGuestSessionId] = useState('')
 
 
 const apiKey = '7e14147cbafc9f8e4f095ea26ebf8692';
-
-// useEffect(() => {
-//     const createGuestSession = async () => {
-//       try {
-//         const response = await fetch(`https://api.themoviedb.org/3/authentication/guest_session/new?api_key=${apiKey}`);
-//         if (response.ok) {
-//           const data = await response.json();
-//           setGuestSessionId(data.guest_session_id);
-//           console.log(data.guest_session_id)
-//         } else {
-//           console.error('Failed to create guest session');
-//         }
-//       } catch (error) {
-//         console.error('Error creating guest session:', error);
-//       }
-//     };
-
-//     createGuestSession();
-// }, []);
 
     useEffect(() => {
     const searchMovies = async () => {
@@ -101,7 +82,7 @@ const onChangePage = async (page, pageSize) =>{
     try {
         setLoading(true)
 
-        const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${inputValue}&page=${page}&per_page=6`);
+        const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${inputValue}&page=${page}&per_page=6&${guestSessionId}`);
         setLoading(false)
 
         if (response.ok) {
@@ -117,6 +98,36 @@ const onChangePage = async (page, pageSize) =>{
     }
 }
 
+
+const onChangeRate = async (movieId, valueRate) =>{
+    try {
+        setLoading(true)
+        const options = {
+            method: 'POST',
+            headers: {
+              accept: 'application/json',
+              'Content-Type': 'application/json;charset=utf-8',
+              Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3ZTE0MTQ3Y2JhZmM5ZjhlNGYwOTVlYTI2ZWJmODY5MiIsInN1YiI6IjY2MzIzNmQ3YWQ1OWI1MDEyODZjYTdjNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.50trAargRmCN6qwVT2HJIVnC64YOxwQxmzyS9VREfPQ`
+            },
+            body:JSON.stringify({
+                value: `${valueRate}`
+                })
+          }
+          console.log(valueRate)
+        const guestSessionId = localStorage.getItem('sessionId')
+        const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/rating?guest_session_id=${guestSessionId}`, options);
+        setLoading(false)
+
+        if (response.ok) {
+            const data = await response.json();
+          
+        } else {
+            setError('Failed to fetch movies');
+        }
+    } catch (error) {
+        setError('Error fetching movies');
+    }
+}
   return (
     <div className='wrapper'>
       <h1>Movie Search Results</h1>
@@ -135,7 +146,8 @@ const onChangePage = async (page, pageSize) =>{
         dataSource={movies}
         locale = {{emptyText:'no results'}}
         loading = {loading}
-        renderItem={movie => (
+        renderItem={movie => {
+            return(
           <List.Item style={{ width: 421, height: 279 }}>
                       <List.Item.Meta
               avatar={<Avatar shape="square" style={{ width: 183, height: 281 }} src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />}
@@ -148,11 +160,16 @@ const onChangePage = async (page, pageSize) =>{
                        </div> 
                     </> 
                     }
-              description={truncateText(movie.overview, 300)}
+              description={truncateText(movie.overview, 100)}
+                      /> 
+                      <Rate
+                        onChange={(rate)=>onChangeRate(movie.id, rate)}  
+                      />
 
-            />
-          </List.Item>
-        )}
+         </List.Item>
+                        
+          
+        )}}
       />
       <Pagination
         total={total}
