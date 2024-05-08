@@ -81,7 +81,11 @@ const genres = ["Action", "Adventure", "Comedy", "Drama", "Fantasy"];
         loading = {loading}
         renderItem={movie => (
             <List.Item style={{ width: 421, height: 279, position: 'relative' }}>
-            <div style={{ position: 'absolute', top: 0, right: 0, padding: '5px' }}>{movie.vote_average.toFixed}</div>                      <List.Item.Meta
+          <div style={{ position: 'absolute', top: 0, right: 0, padding: '5px',
+                              border: `2px solid `
+                            //   ${getColorBasedOnRating(movie.vote_average)}`
+            }}>{movie.vote_average.toFixed(1)}</div>                    
+             <List.Item.Meta
               avatar={<Avatar shape="square" style={{ width: 183, height: 281 }} src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />}
               title={<><a href="movie poster">{movie.title}</a>
                        <p> DATE{movie.release_date} </p>
