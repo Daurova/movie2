@@ -28,14 +28,18 @@ const [total, setTotal] = useState(0)
 
 
 const apiKey = '7e14147cbafc9f8e4f095ea26ebf8692';
+const guestSessionId = localStorage.getItem('sessionId'); 
+const myRating = localStorage.getItem('myRating')
 
 
 
     useEffect(() => {
+
     const rated = async () => {
       try {
         setLoading(true)
-        const response = await fetch (`https://api.themoviedb.org/3/guest_session/{data.guest_session_id}/rated/movies`)
+        const response = await fetch (`https://api.themoviedb.org/3/guest_session/${guestSessionId}/rated/movies?api_key=${apiKey}`)
+        console.log (response)
         setLoading(false)
 
         if (response.ok) {
@@ -51,9 +55,11 @@ const apiKey = '7e14147cbafc9f8e4f095ea26ebf8692';
         console.error('Error fetching movies:', error);
       }
    };
-
     rated();
-    }, []);
+    },
+
+    [myRating]
+);
 
 /////////////////////////////////////////////////
 const genres = ["Action", "Adventure", "Comedy", "Drama", "Fantasy"];
@@ -74,8 +80,8 @@ const genres = ["Action", "Adventure", "Comedy", "Drama", "Fantasy"];
         locale = {{emptyText:'no results'}}
         loading = {loading}
         renderItem={movie => (
-          <List.Item style={{ width: 421, height: 279 }}>
-                      <List.Item.Meta
+            <List.Item style={{ width: 421, height: 279, position: 'relative' }}>
+            <div style={{ position: 'absolute', top: 0, right: 0, padding: '5px' }}>{movie.vote_average.toFixed}</div>                      <List.Item.Meta
               avatar={<Avatar shape="square" style={{ width: 183, height: 281 }} src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />}
               title={<><a href="movie poster">{movie.title}</a>
                        <p> DATE{movie.release_date} </p>
@@ -86,11 +92,12 @@ const genres = ["Action", "Adventure", "Comedy", "Drama", "Fantasy"];
                        </div> 
                     </> 
                     }
-              description={truncateText(movie.overview, 300)}
+              description={truncateText(movie.overview, 100)}
 
                       />
                      <Rate
-                        // onChange={}  
+                      count={10} 
+                      value={movie.rating}  
                       />
           </List.Item>
         )}

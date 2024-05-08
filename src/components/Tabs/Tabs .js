@@ -24,6 +24,7 @@ const MyTabs = () => {
               const data = await response.json();
               setGuestSessionId(data.guest_session_id);
               console.log(data.guest_session_id)
+              console.log()
             } else {
               console.error('Failed to create guest session');
             }

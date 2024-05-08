@@ -24,7 +24,17 @@ const [error, setError] = useState(false);
 const [total, setTotal] = useState(0)
 const [inputValue, setInputValue]=useState('')
 const [guestSessionId, setGuestSessionId] = useState('')
-
+// const getColorBasedOnRating = (movie) => {
+//     if (movie.vote_average >= 0 && movie.vote_average < 3) {
+//         return '#E90000';
+//     } else if (movie.vote_average >= 3 && movie.vote_average < 5) {
+//         return '#E97E00';
+//     } else if (movie.vote_average >= 5 && movie.vote_average < 7) {
+//         return '#E9D100';
+//     } else {
+//         return '#66E900';
+//     }
+// };
 
 
 
@@ -114,13 +124,17 @@ const onChangeRate = async (movieId, valueRate) =>{
                 })
           }
           console.log(valueRate)
+          localStorage.setItem('movieRatedId', movieId);
+          localStorage.setItem('myRating', valueRate);
+
+
         const guestSessionId = localStorage.getItem('sessionId')
         const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/rating?guest_session_id=${guestSessionId}`, options);
         setLoading(false)
 
         if (response.ok) {
             const data = await response.json();
-          
+
         } else {
             setError('Failed to fetch movies');
         }
@@ -148,7 +162,12 @@ const onChangeRate = async (movieId, valueRate) =>{
         loading = {loading}
         renderItem={movie => {
             return(
-          <List.Item style={{ width: 421, height: 279 }}>
+                <List.Item style={{ width: 421, height: 279, position: 'relative' }}>
+                <div style={{ position: 'absolute', top: 0, right: 0, padding: '5px',
+                              border: `2px solid `
+                            //   ${getColorBasedOnRating(movie.vote_average)}`
+            }}>{movie.vote_average.toFixed(1)}</div> 
+            
                       <List.Item.Meta
               avatar={<Avatar shape="square" style={{ width: 183, height: 281 }} src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />}
               title={<><a href="movie poster">{movie.title}</a>
@@ -163,6 +182,7 @@ const onChangeRate = async (movieId, valueRate) =>{
               description={truncateText(movie.overview, 100)}
                       /> 
                       <Rate
+                        count={10}
                         onChange={(rate)=>onChangeRate(movie.id, rate)}  
                       />
 
