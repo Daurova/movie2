@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { Input, Space, List, Avatar, Button, Spin, Alert, Pagination, Rate } from 'antd'
-import {debounce} from 'lodash'
+// import {debounce} from 'lodash'
 
 import '../CardList/CardList.css'
 
@@ -82,8 +82,7 @@ const genres = ["Action", "Adventure", "Comedy", "Drama", "Fantasy"];
         renderItem={movie => (
             <List.Item style={{ width: 421, height: 279, position: 'relative' }}>
           <div style={{ position: 'absolute', top: 0, right: 0, padding: '5px',
-                              border: `2px solid `
-                            //   ${getColorBasedOnRating(movie.vote_average)}`
+                        border: `2px solid ${movie.vote_average >= 7 ? '#66E900' : movie.vote_average >= 5 ? '#E9D100' : movie.vote_average >= 3 ? '#E97E00' : '#E90000'}`
             }}>{movie.vote_average.toFixed(1)}</div>                    
              <List.Item.Meta
               avatar={<Avatar shape="square" style={{ width: 183, height: 281 }} src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />}
