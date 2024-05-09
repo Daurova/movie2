@@ -1,9 +1,10 @@
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Input, Space, List, Avatar, Button, Spin, Alert, Pagination, Rate } from 'antd'
 // import {debounce} from 'lodash'
 
 import '../CardList/CardList.css'
+import { Context } from '../../App';
 
 
 
@@ -22,6 +23,8 @@ const [movies, setMovies] = useState([]);
 const [loading, setLoading] = useState(false); // Добавляем состояние для индикатора загрузки
 const [error, setError] = useState(false);
 const [total, setTotal] = useState(0)
+const ganresList = useContext(Context)
+
 // const [guestSessionId, setGuestSessionId] = useState('')
 
 
@@ -58,11 +61,10 @@ const myRating = localStorage.getItem('myRating')
     rated();
     },
 
-    [myRating]
+    []
 );
 
 /////////////////////////////////////////////////
-const genres = ["Action", "Adventure", "Comedy", "Drama", "Fantasy"];
 
 
  return (
@@ -89,8 +91,8 @@ const genres = ["Action", "Adventure", "Comedy", "Drama", "Fantasy"];
               title={<><a href="movie poster">{movie.title}</a>
                        <p> DATE{movie.release_date} </p>
                       <div style={{ marginBottom: 10 }}>
-                          {genres.map(genre => (
-                            <Button key={genre} style={{ marginRight: 5 }} disabled>{genre}</Button>
+                      {movie.genre_ids.map(genre => (
+                            <Button key={genre} style={{ marginRight: 5 }} disabled>{ganresList.find((genreName)=>genreName.id===genre).name}</Button>
                            ))}
                        </div> 
                     </> 

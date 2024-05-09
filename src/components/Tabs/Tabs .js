@@ -34,7 +34,8 @@ const MyTabs = () => {
         };
     
         createGuestSession();
-    }, []);
+
+      }, []);
 
     const handleTabChange = (key) => {
         setActiveTab(key);
@@ -53,7 +54,7 @@ const MyTabs = () => {
                 </TabPane>
                 <TabPane tab="Rated" key="rated">
                 {guestSessionId ? (
-                        <RatedMovies guestSessionId={guestSessionId} />
+                        <RatedMovies key={activeTab} guestSessionId={guestSessionId} />
                     ) : (
                         <div>Loading...</div>
                         // display a loading indicator here

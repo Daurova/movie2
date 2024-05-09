@@ -1,9 +1,10 @@
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Input, Space, List, Avatar, Button, Spin, Alert, Pagination, Rate } from 'antd'
 import {debounce} from 'lodash'
 
 import '../CardList/CardList.css'
+import { Context } from '../../App';
 
 
 
@@ -24,6 +25,9 @@ const [error, setError] = useState(false);
 const [total, setTotal] = useState(0)
 const [inputValue, setInputValue]=useState('')
 const [guestSessionId, setGuestSessionId] = useState('')
+const ganresList = useContext(Context)
+
+console.log(ganresList)
 // const getColorBasedOnRating = (movie) => {
 //     if (movie.vote_average >= 0 && movie.vote_average < 3) {
 //         return '#E90000';
@@ -39,6 +43,8 @@ const [guestSessionId, setGuestSessionId] = useState('')
 
 
 const apiKey = '7e14147cbafc9f8e4f095ea26ebf8692';
+
+
 
     useEffect(() => {
     const searchMovies = async () => {
@@ -65,7 +71,6 @@ const apiKey = '7e14147cbafc9f8e4f095ea26ebf8692';
     }, []);
 
 
-const genres = ["Action", "Adventure", "Comedy", "Drama", "Fantasy"];
 
 const handleSearch = debounce(async (value) => {
     try {
@@ -172,8 +177,8 @@ const onChangeRate = async (movieId, valueRate) =>{
               title={<><a href="movie poster">{movie.title}</a>
                        <p> DATE{movie.release_date} </p>
                       <div style={{ marginBottom: 10 }}>
-                          {genres.map(genre => (
-                            <Button key={genre} style={{ marginRight: 5 }} disabled>{genre}</Button>
+                          {movie.genre_ids.map(genre => (
+                            <Button key={genre} style={{ marginRight: 5 }} disabled>{ganresList.find((genreName)=>genreName.id===genre).name}</Button>
                            ))}
                        </div> 
                     </> 
