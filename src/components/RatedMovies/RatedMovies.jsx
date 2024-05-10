@@ -69,8 +69,7 @@ const myRating = localStorage.getItem('myRating')
 
  return (
     <div className='wrapper'>
-      <h1>Rated Results</h1>
-   
+  
       {/* Индикатор загрузки */}
       {loading && <Spin />}
       {/* Обработка ошибок */}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Tabs } from 'antd';
 import MovieSearch from '../CardList/CardList'
 import RatedMovies from '../RatedMovies/RatedMovies'
+import '../Tabs/Tabs.css'
 
 const { TabPane } = Tabs;
 
@@ -47,8 +48,8 @@ const MyTabs = () => {
     };
 
     return (
-        <div>
-            <Tabs activeKey={activeTab} onChange={handleTabChange}>
+        <div >
+            <Tabs activeKey={activeTab} onChange={handleTabChange} className='tabs--centered' centered>
                 <TabPane tab="Search" key="search">
                     <MovieSearch />
                 </TabPane>

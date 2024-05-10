@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Input, Space, List, Avatar, Button, Spin, Alert, Pagination, Rate } from 'antd'
 import {debounce} from 'lodash'
+import { format } from 'date-fns';
+
 
 import '../CardList/CardList.css'
 import { Context } from '../../App';
@@ -149,10 +151,11 @@ const onChangeRate = async (movieId, valueRate) =>{
 }
   return (
     <div className='wrapper'>
-      <h1>Movie Search Results</h1>
-   
-       <Space direction="vertical">
+  
+       <Space direction="vertical" className="container--full-width" size={'large'}>
        <Input placeholder="Введите поисковый запрос"
+              size='large'
+              className="container__input--full-width"
               onChange={(e)=>handleSearch(e.target.value)} />
        </Space>
       {/* Индикатор загрузки */}
@@ -160,36 +163,46 @@ const onChangeRate = async (movieId, valueRate) =>{
       {/* Обработка ошибок */}
       {error && <Alert message={error} type="error" />}
       <List
-        grid={{ gutter: 36, column: 2 }}
+        grid={{ gutter: 50, column: 2 }}
         itemLayout="horizontal"
         dataSource={movies}
         locale = {{emptyText:'no results'}}
         loading = {loading}
         renderItem={movie => {
             return(
-                <List.Item style={{ width: 421, height: 279, position: 'relative' }}>
-                <div style={{ position: 'absolute', top: 0, right: 0, padding: '5px',
-                            border: `2px solid ${movie.vote_average >= 7 ? '#66E900' : movie.vote_average >= 5 ? '#E9D100' : movie.vote_average >= 3 ? '#E97E00' : '#E90000'}`
-                            }}>{movie.vote_average.toFixed(1)}</div> 
+                <List.Item style={{ width: 485, height: 279, position: 'relative' }}
+                           className='list-item'>
+                <div style={{ position: 'absolute', top: 10, right: 10, padding: '5px',
+                              border: `2px solid ${movie.vote_average >= 7 ? '#66E900' : movie.vote_average >= 5 ? '#E9D100' : movie.vote_average >= 3 ? '#E97E00' : '#E90000'}`,
+                            }}
+                            className='rating--circle'
+                >{movie.vote_average.toFixed(1)}
+                            </div> 
             
                       <List.Item.Meta
               avatar={<Avatar shape="square" style={{ width: 183, height: 281 }} src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />}
-              title={<><a href="movie poster">{movie.title}</a>
-                       <p> DATE{movie.release_date} </p>
-                      <div style={{ marginBottom: 10 }}>
+              title={<><p href="movie poster" className='movie-title'>{movie.title}</p>
+                       <p className='date'> DATE{movie.release_date}{format(movie.release_date, 'MMMM d, yyyy')} </p>//const formattedDate = format(fetchedDate, 'MMMM d, yyyy');
+
+                      <div style={{ marginBottom: 10}}>
                           {movie.genre_ids.map(genre => (
-                            <Button key={genre} style={{ marginRight: 5 }} disabled>{ganresList.find((genreName)=>genreName.id===genre).name}</Button>
+                            <Button key={genre} size='small' style={{ marginRight: 5 }} disabled>{ganresList.find((genreName)=>genreName.id===genre).name}</Button>
                            ))}
                        </div> 
                     </> 
                     }
-              description={truncateText(movie.overview, 100)}
+              description={<><p className='description'>{truncateText(movie.overview, 200)}</p>
+                             <p><Rate
+                                count={10}
+                                allowHalf={true}
+                                onChange={(rate)=>onChangeRate(movie.id, rate)}  
+                                className='rating-stars'
+                      /></p>
+              </>}
+              
                       /> 
-                      <Rate
-                        count={10}
-                        onChange={(rate)=>onChangeRate(movie.id, rate)}  
-                      />
-
+                     
+                 
          </List.Item>
                         
           
