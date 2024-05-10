@@ -184,7 +184,7 @@ const onChangeRate = async (movieId, valueRate) =>{
               title={<><p href="movie poster" className='movie-title'>{movie.title}</p>
                        <p className='date'>{format(movie.release_date, 'MMMM d, yyyy')} </p>
 
-                      <div style={{ marginBottom: 10}}>
+                      <div style={{ marginBottom: 10, maxHeight: 25, overflow: 'hidden'}}>
                           {movie.genre_ids.map(genre => (
                             <Button key={genre} size='small' style={{ marginRight: 5, fontSize:12 }} disabled>{ganresList.find((genreName)=>genreName.id===genre).name}</Button>
                            ))}

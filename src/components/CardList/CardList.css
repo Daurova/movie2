@@ -18,15 +18,19 @@
 .pagination{
     position: absolute;
     left: 33%;
+    padding-bottom: 40px;
+    padding-top: 40px;
 }
 /*//////////////////*/
 
 
 
 .list-item{
-    margin: 40px;
+    margin: 80px 40px;
     box-shadow: 3px 3px 5px 0px rgba(211,202,202,0.75);  
     overflow: hidden;
+
+
  
 }
 
