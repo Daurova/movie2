@@ -170,7 +170,7 @@ const onChangeRate = async (movieId, valueRate) =>{
         loading = {loading}
         renderItem={movie => {
             return(
-                <List.Item style={{ width: 485, height: 279, position: 'relative' }}
+                <List.Item style={{ width: 485, height: 279, position: 'relative', paddingRight: 25 }}
                            className='list-item'>
                 <div style={{ position: 'absolute', top: 10, right: 10, padding: '5px',
                               border: `2px solid ${movie.vote_average >= 7 ? '#66E900' : movie.vote_average >= 5 ? '#E9D100' : movie.vote_average >= 3 ? '#E97E00' : '#E90000'}`,
@@ -182,11 +182,11 @@ const onChangeRate = async (movieId, valueRate) =>{
                       <List.Item.Meta
               avatar={<Avatar shape="square" style={{ width: 183, height: 281 }} src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />}
               title={<><p href="movie poster" className='movie-title'>{movie.title}</p>
-                       <p className='date'> DATE{movie.release_date}{format(movie.release_date, 'MMMM d, yyyy')} </p>//const formattedDate = format(fetchedDate, 'MMMM d, yyyy');
+                       <p className='date'>{format(movie.release_date, 'MMMM d, yyyy')} </p>
 
                       <div style={{ marginBottom: 10}}>
                           {movie.genre_ids.map(genre => (
-                            <Button key={genre} size='small' style={{ marginRight: 5 }} disabled>{ganresList.find((genreName)=>genreName.id===genre).name}</Button>
+                            <Button key={genre} size='small' style={{ marginRight: 5, fontSize:12 }} disabled>{ganresList.find((genreName)=>genreName.id===genre).name}</Button>
                            ))}
                        </div> 
                     </> 
