@@ -166,7 +166,7 @@ const onChangeRate = async (movieId, valueRate) =>{
         grid={{ gutter: 50, column: 2 }}
         itemLayout="horizontal"
         dataSource={movies}
-        locale = {{emptyText:'no results'}}
+        locale = {{emptyText:'нет данных no results'}}
         loading = {loading}
         renderItem={movie => {
             return(
@@ -213,6 +213,7 @@ const onChangeRate = async (movieId, valueRate) =>{
         pageSize={20}
         onChange={onChangePage}
         showSizeChanger={false}
+        className='pagination'
 
       />
     </div>
