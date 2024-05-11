@@ -1,11 +1,13 @@
 
 import React, { useState, useEffect, useContext } from 'react'
-import { Input, Space, List, Avatar, Button, Spin, Alert, Pagination, Rate } from 'antd'
+import {useMediaQuery} from 'react-responsive'
+import { Input, Space, List, Avatar, Button, Spin, Alert, Pagination, Rate, Flex } from 'antd'
 import {debounce} from 'lodash'
 import { format } from 'date-fns';
 
 
 import '../CardList/CardList.css'
+
 import { Context } from '../../App';
 
 
@@ -28,21 +30,8 @@ const [total, setTotal] = useState(0)
 const [inputValue, setInputValue]=useState('')
 const [guestSessionId, setGuestSessionId] = useState('')
 const ganresList = useContext(Context)
-
+const isMobile = useMediaQuery({ maxWidth: 767 });
 console.log(ganresList)
-// const getColorBasedOnRating = (movie) => {
-//     if (movie.vote_average >= 0 && movie.vote_average < 3) {
-//         return '#E90000';
-//     } else if (movie.vote_average >= 3 && movie.vote_average < 5) {
-//         return '#E97E00';
-//     } else if (movie.vote_average >= 5 && movie.vote_average < 7) {
-//         return '#E9D100';
-//     } else {
-//         return '#66E900';
-//     }
-// };
-
-
 
 const apiKey = '7e14147cbafc9f8e4f095ea26ebf8692';
 
@@ -163,8 +152,9 @@ const onChangeRate = async (movieId, valueRate) =>{
       {/* Обработка ошибок */}
       {error && <Alert message={error} type="error" />}
       <List
-        grid={{ gutter: 50, column: 2 }}
-        itemLayout="horizontal"
+         className='movies-list'
+          grid={{ gutter: -100, column: 2 }}
+        // itemLayout="horizontal"
         dataSource={movies}
         locale = {{emptyText:'нет данных no results'}}
         loading = {loading}
@@ -216,6 +206,7 @@ const onChangeRate = async (movieId, valueRate) =>{
         className='pagination'
 
       />
+
     </div>
   );
 };

@@ -7,7 +7,7 @@
 .container--full-width {
     width: 100%;
     max-width: 100vw;
-    margin-bottom: 40px;
+    margin-bottom: 0px;
 }
 
 .container__input--full-width {
@@ -15,6 +15,9 @@
     height: 40px;
 }
 
+.movies-list{
+
+}
 .pagination{
     position: absolute;
     left: 33%;
@@ -26,7 +29,7 @@
 
 
 .list-item{
-    margin: 80px 40px;
+    margin: 40px 40px 0px 40px;
     box-shadow: 3px 3px 5px 0px rgba(211,202,202,0.75);  
     overflow: hidden;
 
