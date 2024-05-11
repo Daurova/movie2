@@ -9,6 +9,7 @@ import { format } from 'date-fns';
 import '../CardList/CardList.css'
 
 import { Context } from '../../App';
+import SizeContext from 'antd/es/config-provider/SizeContext';
 
 
 
@@ -30,7 +31,7 @@ const [total, setTotal] = useState(0)
 const [inputValue, setInputValue]=useState('')
 const [guestSessionId, setGuestSessionId] = useState('')
 const ganresList = useContext(Context)
-const isMobile = useMediaQuery({ maxWidth: 767 });
+const isMobile = useMediaQuery({ maxWidth: 420 });
 console.log(ganresList)
 
 const apiKey = '7e14147cbafc9f8e4f095ea26ebf8692';
@@ -140,7 +141,82 @@ const onChangeRate = async (movieId, valueRate) =>{
 }
   return (
     <div className='wrapper'>
-  
+  {isMobile ? (<>
+  {/* MOBILE */}
+    <Space direction="vertical" className="container--full-width" size={'large'}>
+       <Input placeholder="Введите поисковый запрос"
+              size='large'
+              className="container__input--full-width"
+              onChange={(e)=>handleSearch(e.target.value)} />
+       </Space>
+      {/* Индикатор загрузки */}
+      {loading && <Spin />}
+      {/* Обработка ошибок */}
+      {error && <Alert message={error} type="error" />}
+      <List
+        className='movies-list'
+        grid={{ gutter: 10, column: 1 }}
+        dataSource={movies}
+        locale = {{emptyText:'нет данных no results'}}
+        loading = {loading}
+        renderItem={movie => {
+            return(
+                <List.Item style={{ width: 380, height: 245, position: 'relative', paddingRight: 25 }}
+                           className='list-item'>
+                <div style={{ position: 'absolute', top: 10, right: 10, padding: '5px',
+                              border: `2px solid ${movie.vote_average >= 7 ? '#66E900' : movie.vote_average >= 5 ? '#E9D100' : movie.vote_average >= 3 ? '#E97E00' : '#E90000'}`,
+                            }}
+                            className='rating--circle'
+                >{movie.vote_average.toFixed(1)}
+                            </div> 
+            
+                      <List.Item.Meta
+              avatar={<Avatar className='movie-poster' shape="square" style={{ width: 60, height: 91 }} src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />}
+              title={<><p  className='movie-title'>{movie.title}</p>
+                       <p className='date'>{format(movie.release_date, 'MMMM d, yyyy')} </p>
+
+                      <div style={{ marginBottom: 10, maxHeight: 25, overflow: 'hidden'}}>
+                          {movie.genre_ids.map(genre => (
+                            <Button key={genre} size='small' style={{ marginRight: 5, fontSize:12 }} disabled>{ganresList.find((genreName)=>genreName.id===genre).name}</Button>
+                           ))}
+                       </div> 
+                    </> 
+                    }
+              description={<><p className='description'>{truncateText(movie.overview, 200)}</p>
+                             <p><Rate
+                                count={10}
+                                allowHalf={true}
+                                onChange={(rate)=>onChangeRate(movie.id, rate)}  
+                                className='rating-stars'
+                      /></p>
+              </>}
+              
+                      /> 
+                     
+                 
+         </List.Item>
+                        
+          
+        )}}
+      />           
+
+      <Pagination
+        total={total}
+        pageSize={20}
+        onChange={onChangePage}
+        showSizeChanger={false}
+        className='pagination'
+
+      />
+
+
+
+
+
+                </>
+            ) : (
+                // DESKTOP layout
+<>
        <Space direction="vertical" className="container--full-width" size={'large'}>
        <Input placeholder="Введите поисковый запрос"
               size='large'
@@ -197,7 +273,8 @@ const onChangeRate = async (movieId, valueRate) =>{
                         
           
         )}}
-      />
+      />           
+
       <Pagination
         total={total}
         pageSize={20}
@@ -206,7 +283,7 @@ const onChangeRate = async (movieId, valueRate) =>{
         className='pagination'
 
       />
-
+</> )}
     </div>
   );
 };

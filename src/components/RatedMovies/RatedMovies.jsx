@@ -5,6 +5,8 @@ import { Input, Space, List, Avatar, Button, Spin, Alert, Pagination, Rate } fro
 
 import '../CardList/CardList.css'
 import { Context } from '../../App';
+import {useMediaQuery} from 'react-responsive'
+
 
 
 
@@ -102,6 +104,8 @@ const myRating = localStorage.getItem('myRating')
                      <Rate
                       count={10} 
                       value={movie.rating}  
+                      allowHalf={true}
+
                       />
           </List.Item>
         )}
