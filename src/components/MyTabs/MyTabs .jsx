@@ -1,8 +1,8 @@
+/* eslint-disable import/order */
+
 import React, { useState, useEffect } from 'react';
-{
-  /* eslint-disable-line import/order */
-}
 import { Tabs } from 'antd';
+
 import CardList from '../CardList/CardList';
 import RatedMovies from '../RatedMovies/RatedMovies';
 import './MyTabs.css';
