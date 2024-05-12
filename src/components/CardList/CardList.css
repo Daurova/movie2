@@ -4,7 +4,7 @@
     position: relative;
 }
 .container--full-width {
-    width: 100%;
+    max-width: 97%;
     margin-bottom: 0px;
     padding-left: 0px;
 }
@@ -97,6 +97,9 @@
     overflow: hidden;
  
 }
+.movie-poster{
+    margin: 0;
+}
 
 .rating--circle{
     border-radius: 50%;
@@ -120,7 +123,7 @@
 .movie-title{
     font-size: 20px;
     font-weight: 600;
-    width: 240px;
+    max-width: 200px;
     max-height: 66px;
     padding: 0;
     margin: 0;

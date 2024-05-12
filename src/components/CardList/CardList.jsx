@@ -184,7 +184,7 @@ const onChangeRate = async (movieId, valueRate) =>{
                     }
               description={<><p className='description'>{truncateText(movie.overview, 200)}</p>
                              <p><Rate
-                                count={10}
+                                count={10} 
                                 allowHalf={true}
                                 onChange={(rate)=>onChangeRate(movie.id, rate)}  
                                 className='rating-stars'
@@ -229,14 +229,14 @@ const onChangeRate = async (movieId, valueRate) =>{
       {error && <Alert message={error} type="error" />}
       <List
          className='movies-list'
-          grid={{ gutter: -100, column: 2 }}
-        // itemLayout="horizontal"
+          grid={{ gutter: 40, column: 2 }}
+        itemLayout="horizontal"
         dataSource={movies}
         locale = {{emptyText:'нет данных no results'}}
         loading = {loading}
         renderItem={movie => {
             return(
-                <List.Item style={{ width: 485, height: 279, position: 'relative', paddingRight: 25 }}
+                <List.Item style={{ width: 451, height: 279, position: 'relative', paddingRight: 25 }}
                            className='list-item'>
                 <div style={{ position: 'absolute', top: 10, right: 10, padding: '5px',
                               border: `2px solid ${movie.vote_average >= 7 ? '#66E900' : movie.vote_average >= 5 ? '#E9D100' : movie.vote_average >= 3 ? '#E97E00' : '#E90000'}`,
@@ -246,8 +246,8 @@ const onChangeRate = async (movieId, valueRate) =>{
                             </div> 
             
                       <List.Item.Meta
-              avatar={<Avatar shape="square" style={{ width: 183, height: 281 }} src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />}
-              title={<><p href="movie poster" className='movie-title'>{movie.title}</p>
+              avatar={<Avatar className='movie-poster' shape="square" style={{ width: 183, height: 281 }} src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />}
+              title={<><p className='movie-title'>{movie.title}</p>
                        <p className='date'>{format(movie.release_date, 'MMMM d, yyyy')} </p>
 
                       <div style={{ marginBottom: 10, maxHeight: 25, overflow: 'hidden'}}>
@@ -260,6 +260,8 @@ const onChangeRate = async (movieId, valueRate) =>{
               description={<><p className='description'>{truncateText(movie.overview, 200)}</p>
                              <p><Rate
                                 count={10}
+                                character={<span style={{ fontSize: '20px' }}>★</span>}
+
                                 allowHalf={true}
                                 onChange={(rate)=>onChangeRate(movie.id, rate)}  
                                 className='rating-stars'
