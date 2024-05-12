@@ -1,7 +1,5 @@
 import React from 'react';
-
 import ReactDOM from 'react-dom/client';
-
 import './index.css';
 import { Alert } from 'antd';
 import { Online, Offline } from 'react-detect-offline';

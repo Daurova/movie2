@@ -141,7 +141,7 @@ const CardList = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data)
+        console.log(data);
       } else {
         setError('Failed to fetch movies');
       }

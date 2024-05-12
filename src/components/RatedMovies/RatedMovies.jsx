@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { List, Avatar, Button, Spin, Alert, Pagination, Rate } from 'antd';
-// import {debounce} from 'lodash'
-
 import '../RatedMovies/RatedMovies.css';
 import { useMediaQuery } from 'react-responsive';
 import { format } from 'date-fns';
@@ -30,7 +28,7 @@ const RatedMovies = () => {
 
   const apiKey = '7e14147cbafc9f8e4f095ea26ebf8692';
   const guestSessionId = localStorage.getItem('sessionId');
-//   const myRating = localStorage.getItem('myRating');
+  //   const myRating = localStorage.getItem('myRating');
 
   useEffect(() => {
     const rated = async () => {
