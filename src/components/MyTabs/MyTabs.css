@@ -1,13 +1,13 @@
-.tabs--centered{
-display: flex;
-justify-content: center;
-margin:0 auto;
-width: 1010px;
+.tabs--centered {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  width: 1010px;
 }
-@media (max-width: 420px){
-    .tabs--centered{
+@media (max-width: 420px) {
+  .tabs--centered {
     max-width: 420px;
     display: flex;
     justify-content: center;
-    }
+  }
 }

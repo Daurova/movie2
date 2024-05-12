@@ -1,2 +1,2 @@
-import RatedMovies from "./RatedMovies";
-export default RatedMovies
+import RatedMovies from './RatedMovies';
+export default RatedMovies;

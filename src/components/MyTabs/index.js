@@ -1,2 +1,2 @@
-import MyTabs from './MyTabs '
-export default MyTabs
+import MyTabs from './MyTabs ';
+export default MyTabs;
