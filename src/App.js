@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
 import './App.css'
 // import CardList from './components/CardList/CardList'
-import Tabs  from './components/Tabs/Tabs ';
+import Tabs  from './components/MyTabs/MyTabs ';
 
 export const Context = createContext([])
 

@@ -3,7 +3,7 @@ import {useMediaQuery} from 'react-responsive'
 import { Tabs } from 'antd';
 import CardList from '../CardList/CardList'
 import RatedMovies from '../RatedMovies/RatedMovies'
-import '../Tabs/Tabs.css'
+import './MyTabs.css'
 
 const { TabPane } = Tabs;
 

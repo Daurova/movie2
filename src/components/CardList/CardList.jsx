@@ -4,12 +4,10 @@ import {useMediaQuery} from 'react-responsive'
 import { Input, Space, List, Avatar, Button, Spin, Alert, Pagination, Rate, Flex } from 'antd'
 import {debounce} from 'lodash'
 import { format } from 'date-fns';
-
-
 import '../CardList/CardList.css'
+import PropTypes from 'prop-types';
 
 import { Context } from '../../App';
-import SizeContext from 'antd/es/config-provider/SizeContext';
 
 
 
@@ -32,10 +30,24 @@ const [inputValue, setInputValue]=useState('')
 const [guestSessionId, setGuestSessionId] = useState('')
 const ganresList = useContext(Context)
 const isMobile = useMediaQuery({ maxWidth: 420 });
-console.log(ganresList)
-
 const apiKey = '7e14147cbafc9f8e4f095ea26ebf8692';
-
+// static propTypes = {
+//     rating: PropTypes.number,
+//     title: PropTypes.string,
+//     score: PropTypes.string,
+//     date: PropTypes.string,
+//     desc: PropTypes.string,
+//     image: PropTypes.string,
+//     id: PropTypes.number,
+//     genres: PropTypes.array,
+//     onDeleteRating: PropTypes.func,
+//     onAddRating: PropTypes.func,
+//     isRatedList: PropTypes.bool,
+//   };
+//   static defaultProps = {
+//     onDeleteRating: () => {},
+//     onAddRating: () => {},
+//   };
 
 
     useEffect(() => {
