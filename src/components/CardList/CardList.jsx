@@ -23,7 +23,7 @@ const truncateText = (text, maxLength) => {
     }
   };
 
-const MovieSearch = () => {
+const CardList = () => {
 const [movies, setMovies] = useState([]);
 const [loading, setLoading] = useState(false); // Добавляем состояние для индикатора загрузки
 const [error, setError] = useState(false);
@@ -173,9 +173,8 @@ const onChangeRate = async (movieId, valueRate) =>{
                       <List.Item.Meta
               avatar={<Avatar className='movie-poster' shape="square" style={{ width: 60, height: 91 }} src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />}
               title={<><p  className='movie-title'>{movie.title}</p>
-                       <p className='date'>{format(movie.release_date, 'MMMM d, yyyy')} </p>
-
-                      <div style={{ marginBottom: 10, maxHeight: 25, overflow: 'hidden'}}>
+                       <p>{movie.release_date? format(movie.release_date, 'MMMM dd, yyyy') : 'The release date is not specified.'} </p>
+                       <div style={{ marginBottom: 10, maxHeight: 25, overflow: 'hidden'}}>
                           {movie.genre_ids.map(genre => (
                             <Button key={genre} size='small' style={{ marginRight: 5, fontSize:12 }} disabled>{ganresList.find((genreName)=>genreName.id===genre).name}</Button>
                            ))}
@@ -209,10 +208,6 @@ const onChangeRate = async (movieId, valueRate) =>{
 
       />
 
-
-
-
-
                 </>
             ) : (
                 // DESKTOP layout
@@ -228,8 +223,8 @@ const onChangeRate = async (movieId, valueRate) =>{
       {/* Обработка ошибок */}
       {error && <Alert message={error} type="error" />}
       <List
-         className='movies-list'
-          grid={{ gutter: 40, column: 2 }}
+        className='movies-list'
+        grid={{ gutter: 40, column: 2 }}
         itemLayout="horizontal"
         dataSource={movies}
         locale = {{emptyText:'нет данных no results'}}
@@ -248,8 +243,7 @@ const onChangeRate = async (movieId, valueRate) =>{
                       <List.Item.Meta
               avatar={<Avatar className='movie-poster' shape="square" style={{ width: 183, height: 281 }} src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />}
               title={<><p className='movie-title'>{movie.title}</p>
-                       <p className='date'>{format(movie.release_date, 'MMMM d, yyyy')} </p>
-
+                       <p >{movie.release_date? format(movie.release_date, 'MMMM dd, yyyy') : 'The release date is not specified.'} </p>
                       <div style={{ marginBottom: 10, maxHeight: 25, overflow: 'hidden'}}>
                           {movie.genre_ids.map(genre => (
                             <Button key={genre} size='small' style={{ marginRight: 5, fontSize:12 }} disabled>{ganresList.find((genreName)=>genreName.id===genre).name}</Button>
@@ -292,4 +286,4 @@ const onChangeRate = async (movieId, valueRate) =>{
 
 
 
-export default MovieSearch;
+export default CardList;

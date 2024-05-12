@@ -15,8 +15,8 @@
 }
 
 .pagination{
-    position: absolute;
-    left: 33%;
+    position: relative;
+    left: %!important;
     padding-bottom: 40px;
     padding-top: 40px;
 }
@@ -50,6 +50,7 @@
         left: 7%;
         padding-bottom: 40px;
         padding-top: 40px;
+        width:200px
     }
   
 

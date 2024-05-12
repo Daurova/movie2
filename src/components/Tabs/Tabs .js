@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {useMediaQuery} from 'react-responsive'
 import { Tabs } from 'antd';
-import MovieSearch from '../CardList/CardList'
+import CardList from '../CardList/CardList'
 import RatedMovies from '../RatedMovies/RatedMovies'
 import '../Tabs/Tabs.css'
 
@@ -52,7 +52,7 @@ const MyTabs = () => {
         <div className='tabs-wrapper'>
             <Tabs activeKey={activeTab} onChange={handleTabChange} className='tabs--centered' centered>
                 <TabPane tab="Search" key="search">
-                    <MovieSearch />
+                    <CardList />
                 </TabPane>
                 <TabPane tab="Rated" key="rated">
                 {guestSessionId ? (

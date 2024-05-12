@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import './App.css'
-import MovieSearch from './components/CardList/CardList'
+// import CardList from './components/CardList/CardList'
 import Tabs  from './components/Tabs/Tabs ';
 
 export const Context = createContext([])

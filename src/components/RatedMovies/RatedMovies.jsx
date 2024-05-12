@@ -99,7 +99,7 @@ const myRating = localStorage.getItem('myRating')
                                <List.Item.Meta
               avatar={<Avatar className='movie-poster' shape="square" style={{ width: 60, height: 91 }} src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />}
               title={<><p  className='movie-title'>{movie.title}</p>
-                       <p className='date'>{format(movie.release_date, 'MMMM d, yyyy')} </p>
+                       <p >{movie.release_date? format(movie.release_date, 'MMMM dd, yyyy') : 'The release date is not specified.'} </p>
 
                       <div style={{ marginBottom: 10, maxHeight: 25, overflow: 'hidden'}}>
                           {movie.genre_ids.map(genre => (
@@ -153,7 +153,7 @@ const myRating = localStorage.getItem('myRating')
              <List.Item.Meta
               avatar={<Avatar shape="square" style={{ width: 183, height: 281 }} src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />}
               title={<><p className='movie-title'>{movie.title}</p>
-                       <p className='date'>{format(movie.release_date, 'MMMM d, yyyy')} </p>
+                       <p >{movie.release_date? format(movie.release_date, 'MMMM dd, yyyy') : 'The release date is not specified.'} </p>
                       <div style={{ marginBottom: 10,maxHeight: 25, overflow: 'hidden' }}>
                       {movie.genre_ids.map(genre => (
                             <Button key={genre} size='small' style={{ marginRight: 5, fontSize:12 }} disabled>{ganresList.find((genreName)=>genreName.id===genre).name}</Button>
