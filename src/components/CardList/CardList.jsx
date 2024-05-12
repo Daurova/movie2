@@ -4,7 +4,7 @@ import { Input, Space, List, Avatar, Button, Spin, Alert, Pagination, Rate } fro
 import { debounce } from 'lodash';
 import { format } from 'date-fns';
 import '../CardList/CardList.css';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import { Context } from '../../App';
 
@@ -24,7 +24,7 @@ const CardList = () => {
   const [error, setError] = useState(false);
   const [total, setTotal] = useState(0);
   const [inputValue, setInputValue] = useState('');
-  const [guestSessionId, setGuestSessionId] = useState('');
+  const [guestSessionId] = useState('');
   const ganresList = useContext(Context);
   const isMobile = useMediaQuery({ maxWidth: 420 });
   const apiKey = '7e14147cbafc9f8e4f095ea26ebf8692';
@@ -92,7 +92,7 @@ const CardList = () => {
     }
   }, 2000);
 
-  const onChangePage = async (page, pageSize) => {
+  const onChangePage = async (page) => {
     try {
       setLoading(true);
 
@@ -141,6 +141,7 @@ const CardList = () => {
 
       if (response.ok) {
         const data = await response.json();
+        console.log(data)
       } else {
         setError('Failed to fetch movies');
       }

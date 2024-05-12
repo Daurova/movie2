@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Input, Space, List, Avatar, Button, Spin, Alert, Pagination, Rate } from 'antd';
+import { List, Avatar, Button, Spin, Alert, Pagination, Rate } from 'antd';
 // import {debounce} from 'lodash'
 
 import '../RatedMovies/RatedMovies.css';
@@ -21,7 +21,7 @@ const truncateText = (text, maxLength) => {
 const RatedMovies = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false); // Добавляем состояние для индикатора загрузки
-  const [error, setError] = useState(false);
+  const [error] = useState(false);
   const [total, setTotal] = useState(0);
   const ganresList = useContext(Context);
   const isMobile = useMediaQuery({ maxWidth: 420 });
@@ -30,7 +30,7 @@ const RatedMovies = () => {
 
   const apiKey = '7e14147cbafc9f8e4f095ea26ebf8692';
   const guestSessionId = localStorage.getItem('sessionId');
-  const myRating = localStorage.getItem('myRating');
+//   const myRating = localStorage.getItem('myRating');
 
   useEffect(() => {
     const rated = async () => {
