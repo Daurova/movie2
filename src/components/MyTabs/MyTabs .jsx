@@ -6,36 +6,35 @@ import { Tabs } from 'antd';
 import CardList from '../CardList/CardList';
 import RatedMovies from '../RatedMovies/RatedMovies';
 import './MyTabs.css';
+import Service from '../Api';
 
 const { TabPane } = Tabs;
 
 const MyTabs = () => {
   const [activeTab, setActiveTab] = useState('search');
   const [guestSessionId, setGuestSessionId] = useState('');
+  const service = new Service();
 
-  const apiKey = '7e14147cbafc9f8e4f095ea26ebf8692';
+
   useEffect(() => {
     localStorage.setItem('sessionId', guestSessionId);
   }, [guestSessionId]);
 
   useEffect(() => {
-    const createGuestSession = async () => {
-      try {
-        const response = await fetch(`https://api.themoviedb.org/3/authentication/guest_session/new?api_key=${apiKey}`);
-        if (response.ok) {
-          const data = await response.json();
-          setGuestSessionId(data.guest_session_id);
-          console.log(data.guest_session_id);
-          console.log();
-        } else {
-          console.error('Failed to create guest session');
-        }
-      } catch (error) {
-        console.error('Error creating guest session:', error);
-      }
-    };
+  const isSessionId = localStorage.getItem('sessionId').length>0;
+  if (!isSessionId){
+ const getToken = async()=>{
+  const token = await service.createGuestSession()
+  setGuestSessionId(token);
+ }
+ getToken();
+      console.log(123, isSessionId, localStorage.getItem('sessionId'))
+  }else{
+    setGuestSessionId(localStorage.getItem('sessionId'))
+  }
 
-    createGuestSession();
+
+    
   }, []);
 
   const handleTabChange = (key) => {
