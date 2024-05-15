@@ -3,10 +3,12 @@ import { useMediaQuery } from 'react-responsive';
 import { Input, Space, List, Avatar, Button, Spin, Alert, Pagination, Rate } from 'antd';
 import { debounce } from 'lodash';
 import { format } from 'date-fns';
+
 import '../CardList/CardList.css';
 // import PropTypes from 'prop-types';
-
 import { Context } from '../../App';
+import Service from '../Api';
+
 
 const truncateText = (text, maxLength) => {
   if (text.length <= maxLength) {
@@ -28,106 +30,58 @@ const CardList = () => {
   const ganresList = useContext(Context);
   const isMobile = useMediaQuery({ maxWidth: 420 });
   const apiKey = '7e14147cbafc9f8e4f095ea26ebf8692';
+  const service = new Service();
+  console.log(service);
 
   useEffect(() => {
-    const searchMovies = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&page=1&per_page=6`);
-        setLoading(false);
+    // const searchMovies = async () => {
+    //   try {
+    //     setLoading(true);
+    //     const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&page=1&per_page=6`);
+    //     setLoading(false);
 
-        if (response.ok) {
-          const data = await response.json();
-          setMovies(data.results);
-          console.log(data.results);
-          setTotal(data.total_results);
-          console.log(data.total_results);
-        } else {
-          console.error('Failed to fetch movies');
-        }
-      } catch (error) {
-        console.error('Error fetching movies:', error);
-      }
-    };
+    //     if (response.ok) {
+    //       const data = await response.json();
+    //       setMovies(data.results);
+    //       console.log(data.results);
+    //       setTotal(data.total_results);
+    //       console.log(data.total_results);
+    //     } else {
+    //       console.error('Failed to fetch movies');
+    //     }
+    //   } catch (error) {
+    //     console.error('Error fetching movies:', error);
+    //   }
+    // };
 
-    searchMovies();
+    // searchMovies();
   }, []);
 
   const handleSearch = debounce(async (value) => {
-    try {
-      setLoading(true);
-
-      const response = await fetch(
-        `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${value}&page=1&per_page=6`
-      );
-      setLoading(false);
-
-      if (response.ok) {
-        const data = await response.json();
-        setMovies(data.results);
-        setTotal(data.total_results);
-        setInputValue(value);
-      } else {
-        setError('Failed to fetch movies');
-      }
-    } catch (error) {
-      setError('Error fetching movies');
-    }
+    const debouncedSearch = await service.searchMovies({value})
+    setMovies(debouncedSearch.results);
+    setTotal(debouncedSearch.total_results);
+    setInputValue(value);
+    console.log(value)
+    
   }, 2000);
 
   const onChangePage = async (page) => {
-    try {
-      setLoading(true);
-
-      const response = await fetch(
-        `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${inputValue}&page=${page}&per_page=6&${guestSessionId}`
-      );
-      setLoading(false);
-
-      if (response.ok) {
-        const data = await response.json();
-        setMovies(data.results);
-        setTotal(data.total_results);
-      } else {
-        setError('Failed to fetch movies');
-      }
-    } catch (error) {
-      setError('Error fetching movies');
-    }
+    setLoading(true)
+    const moviesArr = await service.searchMovies({value:inputValue, page})
+    setMovies(moviesArr.results);
+    setTotal(moviesArr.total_results);
+    setLoading(false)
   };
 
   const onChangeRate = async (movieId, valueRate) => {
     try {
+
       setLoading(true);
-      const options = {
-        method: 'POST',
-        headers: {
-          accept: 'application/json',
-          'Content-Type': 'application/json;charset=utf-8',
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3ZTE0MTQ3Y2JhZmM5ZjhlNGYwOTVlYTI2ZWJmODY5MiIsInN1YiI6IjY2MzIzNmQ3YWQ1OWI1MDEyODZjYTdjNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.50trAargRmCN6qwVT2HJIVnC64YOxwQxmzyS9VREfPQ',
-        },
-        body: JSON.stringify({
-          value: `${valueRate}`,
-        }),
-      };
-      console.log(valueRate);
-      localStorage.setItem('movieRatedId', movieId);
-      localStorage.setItem('myRating', valueRate);
+      await service.rateMovie({movieId, valueRate})
+       setLoading(false);
 
-      const guestSessionId = localStorage.getItem('sessionId');
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${movieId}/rating?guest_session_id=${guestSessionId}`,
-        options
-      );
-      setLoading(false);
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-      } else {
-        setError('Failed to fetch movies');
-      }
+      
     } catch (error) {
       setError('Error fetching movies');
     }

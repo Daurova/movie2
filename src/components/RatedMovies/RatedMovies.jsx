@@ -5,6 +5,7 @@ import { useMediaQuery } from 'react-responsive';
 import { format } from 'date-fns';
 
 import { Context } from '../../App';
+import Service from '../Api';
 
 const truncateText = (text, maxLength) => {
   if (text.length <= maxLength) {
@@ -19,37 +20,30 @@ const truncateText = (text, maxLength) => {
 const RatedMovies = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false); // Добавляем состояние для индикатора загрузки
-  const [error] = useState(false);
+  const [error, setError] = useState(false);
   const [total, setTotal] = useState(0);
   const ganresList = useContext(Context);
   const isMobile = useMediaQuery({ maxWidth: 420 });
+  const service = new Service();
+    // const [guestSessionId, setGuestSessionId] = useState('')
 
-  // const [guestSessionId, setGuestSessionId] = useState('')
-
-  const apiKey = '7e14147cbafc9f8e4f095ea26ebf8692';
   const guestSessionId = localStorage.getItem('sessionId');
   //   const myRating = localStorage.getItem('myRating');
 
   useEffect(() => {
+
     const rated = async () => {
       try {
         setLoading(true);
-        const response = await fetch(
-          `https://api.themoviedb.org/3/guest_session/${guestSessionId}/rated/movies?api_key=${apiKey}`
-        );
-        console.log(response);
+       const data =  await service.getRatedMovies({guestSessionId});
         setLoading(false);
 
-        if (response.ok) {
-          const data = await response.json();
           setMovies(data.results);
-          console.log(data.results);
           setTotal(data.total_results);
-          console.log(data.total_results);
-        } else {
-          console.error('Failed to fetch movies');
-        }
+      
+        
       } catch (error) {
+        setError('error fetching movies');
         console.error('Error fetching movies:', error);
       }
     };
