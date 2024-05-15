@@ -25,23 +25,20 @@ const RatedMovies = () => {
   const ganresList = useContext(Context);
   const isMobile = useMediaQuery({ maxWidth: 420 });
   const service = new Service();
-    // const [guestSessionId, setGuestSessionId] = useState('')
+  // const [guestSessionId, setGuestSessionId] = useState('')
 
   const guestSessionId = localStorage.getItem('sessionId');
   //   const myRating = localStorage.getItem('myRating');
 
   useEffect(() => {
-
     const rated = async () => {
       try {
         setLoading(true);
-       const data =  await service.getRatedMovies({guestSessionId});
+        const data = await service.getRatedMovies({ guestSessionId });
         setLoading(false);
 
-          setMovies(data.results);
-          setTotal(data.total_results);
-      
-        
+        setMovies(data.results);
+        setTotal(data.total_results);
       } catch (error) {
         setError('error fetching movies');
         console.error('Error fetching movies:', error);

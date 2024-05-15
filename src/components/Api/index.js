@@ -21,7 +21,7 @@ export default class Service {
       const response = await fetch(`https://api.themoviedb.org/3/authentication/guest_session/new?api_key=${apiKey}`);
       if (response.ok) {
         const data = await response.json();
-        return data.guest_session_id; 
+        return data.guest_session_id;
       } else {
         console.error('Failed to create guest session');
       }
@@ -31,9 +31,11 @@ export default class Service {
   }
 
   async searchMovies(searchQuery) {
-    console.log(searchQuery)
+    console.log(searchQuery);
     try {
-      const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchQuery.value}&page=${searchQuery?.page??1}&per_page=20`);
+      const response = await fetch(
+        `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchQuery.value}&page=${searchQuery?.page ?? 1}&per_page=20`
+      );
       if (response.ok) {
         const data = await response.json();
         return data;
@@ -46,7 +48,7 @@ export default class Service {
     }
   }
 
-  async rateMovie(searchQuery){
+  async rateMovie(searchQuery) {
     const options = {
       method: 'POST',
       headers: {
@@ -75,7 +77,7 @@ export default class Service {
     localStorage.setItem('myRating', searchQuery.valueRate);
   }
 
-  async getRatedMovies(searchQuery){
+  async getRatedMovies(searchQuery) {
     const response = await fetch(
       `https://api.themoviedb.org/3/guest_session/${searchQuery.guestSessionId}/rated/movies?api_key=${apiKey}`
     );

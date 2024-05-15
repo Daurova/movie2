@@ -9,7 +9,6 @@ import '../CardList/CardList.css';
 import { Context } from '../../App';
 import Service from '../Api';
 
-
 const truncateText = (text, maxLength) => {
   if (text.length <= maxLength) {
     return text;
@@ -26,10 +25,10 @@ const CardList = () => {
   const [error, setError] = useState(false);
   const [total, setTotal] = useState(0);
   const [inputValue, setInputValue] = useState('');
-  const [guestSessionId] = useState('');
+  // const [guestSessionId] = useState('');
   const ganresList = useContext(Context);
   const isMobile = useMediaQuery({ maxWidth: 420 });
-  const apiKey = '7e14147cbafc9f8e4f095ea26ebf8692';
+  // const apiKey = '7e14147cbafc9f8e4f095ea26ebf8692';
   const service = new Service();
   console.log(service);
 
@@ -39,7 +38,6 @@ const CardList = () => {
     //     setLoading(true);
     //     const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&page=1&per_page=6`);
     //     setLoading(false);
-
     //     if (response.ok) {
     //       const data = await response.json();
     //       setMovies(data.results);
@@ -53,35 +51,30 @@ const CardList = () => {
     //     console.error('Error fetching movies:', error);
     //   }
     // };
-
     // searchMovies();
   }, []);
 
   const handleSearch = debounce(async (value) => {
-    const debouncedSearch = await service.searchMovies({value})
+    const debouncedSearch = await service.searchMovies({ value });
     setMovies(debouncedSearch.results);
     setTotal(debouncedSearch.total_results);
     setInputValue(value);
-    console.log(value)
-    
+    console.log(value);
   }, 2000);
 
   const onChangePage = async (page) => {
-    setLoading(true)
-    const moviesArr = await service.searchMovies({value:inputValue, page})
+    setLoading(true);
+    const moviesArr = await service.searchMovies({ value: inputValue, page });
     setMovies(moviesArr.results);
     setTotal(moviesArr.total_results);
-    setLoading(false)
+    setLoading(false);
   };
 
   const onChangeRate = async (movieId, valueRate) => {
     try {
-
       setLoading(true);
-      await service.rateMovie({movieId, valueRate})
-       setLoading(false);
-
-      
+      await service.rateMovie({ movieId, valueRate });
+      setLoading(false);
     } catch (error) {
       setError('Error fetching movies');
     }
