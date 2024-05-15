@@ -17,25 +17,25 @@ const MyTabs = () => {
 
 
   useEffect(() => {
-    localStorage.setItem('sessionId', guestSessionId);
+    if(guestSessionId.length >0) {
+        localStorage.setItem('sessionId', guestSessionId);
+    }
   }, [guestSessionId]);
 
-  useEffect(() => {
-  const isSessionId = localStorage.getItem('sessionId').length>0;
-  if (!isSessionId){
- const getToken = async()=>{
-  const token = await service.createGuestSession()
-  setGuestSessionId(token);
- }
- getToken();
-      console.log(123, isSessionId, localStorage.getItem('sessionId'))
-  }else{
-    setGuestSessionId(localStorage.getItem('sessionId'))
-  }
+    useEffect(() => {
+        const isSessionId = localStorage.getItem('sessionId');
+        if (!isSessionId || isSessionId.length === 0) {
+            const getToken = async () => {
+                const token = await service.createGuestSession();
+                setGuestSessionId(token);
+                console.log('Generated Guest Session ID:', token);
+            };
 
-
-    
-  }, []);
+            getToken();
+        } else {
+            setGuestSessionId(isSessionId);
+        }
+    }, []);
 
   const handleTabChange = (key) => {
     setActiveTab(key);
